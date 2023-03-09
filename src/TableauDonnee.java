@@ -1,3 +1,9 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.nio.Buffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,9 +19,9 @@ public class TableauDonnee {
     public TableauDonnee() {
         // ATTENTION BUG: si dépasse 9 ça bug
         this.tableau = new int[][]{
-                {1, 9, 3},
-                {4,5,1},
-                {0,1,0}};
+                {14, 11, 12}, // (0, 1 ,2)
+                {13, 12, 13},   // (3, 4, 5)
+                {10, 11, 13}};  // (6, 7, 8)
 
         this.liste_noeud = new Noeud[3][3];
         this.liste_connexion_dispo = new ArrayList<PositionStockage>();
@@ -68,12 +74,14 @@ public class TableauDonnee {
     }
 
     public void Dijkstra(){
+        System.out.println("I0       I1       I2       I3       I4       I5       I6       I7       I8        POSITION ");
+
         // A suprimmer, sert juste pour faire des pauses
         Scanner sc = new Scanner(System.in);
 
         // Index du début et de la fin du chemin
-        int debut = 0;
-        int fin = 6;
+        int debut = 1;
+        int fin = 0;
 
         // Stocke la liste des Connexion
         // Chaque nouvelle étape créé une nouvelle liste
@@ -97,6 +105,15 @@ public class TableauDonnee {
         while (true){
             // Met le noueud sur lequel on se trouve comme non retour dessus possible par la suite
             liste_noeud[position/3][position%3].retour_possible = false;
+
+            // On va supprimer dans la liste des connexions dispo celles dont le noeud n'a pas de retour posssible dessus
+            int compteur = 0;
+            for (int i = 0; i < liste_connexion_dispo.size(); i++) {
+                if (liste_connexion_dispo.get(i-compteur).colonne == position){
+                    liste_connexion_dispo.remove(i-compteur);
+                    compteur += 1;
+                }
+            }
 
             // Si le noeud de fin n'a pas de retour possible dessus, cela veut dire que l'on est arrivé
             if (!liste_noeud[fin / 3][fin % 3].retour_possible){
@@ -149,29 +166,41 @@ public class TableauDonnee {
             }
 
             // On cherche maintenant à trouver parmi la liste des connexion dispo, laquelle est la plus courte
-            // On commence par définir la plus courte comme étant la première
-            minimum = liste_connexion_dispo.get(0);
-            System.out.println("Connexion dispo:");
+            // On test en même temps si il y a des connexion dispo
+            try {
+                // On commence par définir la plus courte comme étant la première
+                minimum = liste_connexion_dispo.get(0);
+            }
+            catch (Exception e){
+                // Dans le cas où il n'y a pas de connexion dispo -> Erreur
+                // Cela signifie que le point est inatteignable
+                System.out.print("POINT INATTEIGNABLE");
+                break;
+            }
+
+
             // Puis on parcourt chacune des coonexion dispo pour voir si elle est plus courte
             for (PositionStockage position_stockage: liste_connexion_dispo) {
-                System.out.println(position_stockage.ligne + " " + position_stockage.colonne);
                 if (etape.get(position_stockage.ligne)[position_stockage.colonne].cout < etape.get(minimum.ligne)[minimum.colonne].cout) {
                     minimum = position_stockage;
                 }
             }
 
             // Affiche l'étape en cour
+            int i = 0;
             for (Connexion connexion: etape.get(ligne)) {
                 try {
-                    System.out.print(connexion.cout + "-" + connexion.noeud.postion+ " ");
+                    System.out.print(connexion.cout + "-" + connexion.noeud.postion);
                 }
                 catch (Exception e){
-                    System.out.print("N ");
+                    System.out.print("N");
                 }
+                System.out.print( " " + liste_noeud[i/3][i%3].retour_possible + "  ");
+                i++;
             }
-            System.out.println();
+            System.out.println(position);
 
-            // On place la nouvelle position sur la case ou l'on à trouvé la distance la plus courte
+            // On place la nouvelle position sur la case où l'on a trouvé la distance la plus courte
             position = minimum.colonne;
 
             // On créé l'étape suivante
@@ -185,19 +214,7 @@ public class TableauDonnee {
 //            sc.nextLine();
 //
 
-            // On va supprimer dans la liste des connexions dispo celles dont le noeud n'a pas de retour posssible dessus
-            int compteur = 0;
-            for (int i = 0; i < liste_connexion_dispo.size(); i++) {
-                if (liste_connexion_dispo.get(i-compteur).colonne == position){
-                    liste_connexion_dispo.remove(i-compteur);
-                    compteur += 1;
-                }
-            }
+
         }
-
-        System.out.println("Propre");
-
-
     }
-
 }
