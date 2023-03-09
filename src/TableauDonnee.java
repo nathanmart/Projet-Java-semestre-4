@@ -13,7 +13,7 @@ public class TableauDonnee {
     public TableauDonnee() {
         // ATTENTION BUG: si dépasse 9 ça bug
         this.tableau = new int[][]{
-                {1, 2, 3},
+                {1, 9, 3},
                 {4,5,1},
                 {0,1,0}};
 
@@ -68,33 +68,57 @@ public class TableauDonnee {
     }
 
     public void Dijkstra(){
+        // A suprimmer, sert juste pour faire des pauses
         Scanner sc = new Scanner(System.in);
-        int debut = 6;
-        int fin = 0;
-        PositionStockage minimum;
 
+        // Index du début et de la fin du chemin
+        int debut = 0;
+        int fin = 6;
+
+        // Stocke la liste des Connexion
+        // Chaque nouvelle étape créé une nouvelle liste
         List<Connexion[]> etape = new ArrayList<Connexion[]>();
 
+        // Stocke la position de la Connexion avec la plus petite distance en cour dans etape
+        PositionStockage minimum;
+
+
+        // Indique à quelle étape nous sommes
         int ligne = 0;
+
+        // Indique de quelle case ont fait les calculs de l'étape
         int position = debut;
+
+        // Ajoute une ligne d'étape
         etape.add(new Connexion[9]);
+        // La première connexion est le point de départ, donc avec un coût de 0
         etape.get(ligne)[position] = new Connexion(0, null);
 
         while (true){
-
-//            System.out.println("Nous somme à la ligne: " + ligne);
-//            System.out.println("La position de départ est " + position);
+            // Met le noueud sur lequel on se trouve comme non retour dessus possible par la suite
             liste_noeud[position/3][position%3].retour_possible = false;
-            if (!liste_noeud[fin / 3][fin % 3].retour_possible){
 
+            // Si le noeud de fin n'a pas de retour possible dessus, cela veut dire que l'on est arrivé
+            if (!liste_noeud[fin / 3][fin % 3].retour_possible){
+                // Affiche distance mini
                 System.out.println("La distance mini est de: " + etape.get(ligne)[position].cout);
+
+                // Contient l'index des cases du chemin, dans l'ordre
                 String chemin = "" + position + " ";
+
+                // Avant, la position était sur la dernière case
+                // Maintenant on remonte
                 position = etape.get(ligne)[position].noeud.postion;
                 chemin += position + " ";
 
+                // Tant que la position n'est pas sur la case de début
                 while (position != debut){
                     int i = 0;
                     while (true) {
+                        // On remonte les étapes petit à petit sur la position en cour
+                        // On essaye de voir si il y a quelque chose
+                        // Si il n'y a rien -> erreur donc on incrémente i et on continue
+                        // Si il a quelque chose, on arrête, le dernier chemin de la case a été trouvé
                         try {
                             int a = etape.get(ligne - i)[position].cout;
                             break;
@@ -103,7 +127,7 @@ public class TableauDonnee {
                             i++;
                         }
                     }
-
+                    // On ajoute son index à la liste
                     chemin += etape.get(ligne - i)[position].noeud.postion + " ";
                     position = etape.get(ligne - i)[position].noeud.postion;
                 }
@@ -111,25 +135,32 @@ public class TableauDonnee {
                 System.out.println(chemin);
                 System.out.println("On part");
                 break;
-
             }
 
-
+            // Parcourt la liste des liaisons de la case sur laquelle on se trouve
             for (Liaison liaison: liste_noeud[position/3][position%3].liste_liaison) {
+                // Teste si la liaison est possible, c'est à dire si le noeud n'est pas marqué comme retour impposible dessus
                 if (liaison.noeud_connecte.retour_possible) {
+                    // On créé une nouvelle Connexion avec son coût depuis la première case
                     etape.get(ligne)[liaison.noeud_connecte.postion] = new Connexion(etape.get(ligne)[position].cout + liaison.cout, liste_noeud[position / 3][position % 3]);
+                    // On ajoute cette Connexion dans la liste des connexions dispo
                     liste_connexion_dispo.add(new PositionStockage(ligne, liaison.noeud_connecte.postion));
                 }
             }
 
+            // On cherche maintenant à trouver parmi la liste des connexion dispo, laquelle est la plus courte
+            // On commence par définir la plus courte comme étant la première
             minimum = liste_connexion_dispo.get(0);
-
+            System.out.println("Connexion dispo:");
+            // Puis on parcourt chacune des coonexion dispo pour voir si elle est plus courte
             for (PositionStockage position_stockage: liste_connexion_dispo) {
+                System.out.println(position_stockage.ligne + " " + position_stockage.colonne);
                 if (etape.get(position_stockage.ligne)[position_stockage.colonne].cout < etape.get(minimum.ligne)[minimum.colonne].cout) {
                     minimum = position_stockage;
                 }
             }
 
+            // Affiche l'étape en cour
             for (Connexion connexion: etape.get(ligne)) {
                 try {
                     System.out.print(connexion.cout + "-" + connexion.noeud.postion+ " ");
@@ -140,24 +171,26 @@ public class TableauDonnee {
             }
             System.out.println();
 
-//            for (int i = 0; i < 9; i++) {
-//                System.out.print(liste_noeud[i/3][i%3].retour_possible + " ");
-//            }
-//            System.out.println("");
-
+            // On place la nouvelle position sur la case ou l'on à trouvé la distance la plus courte
             position = minimum.colonne;
+
+            // On créé l'étape suivante
             etape.add(new Connexion[9]);
+            // On incrémente l'index d'étape
             ligne += 1;
+
+            // On ajoute la Conexion choisi sur la case dans la nouvelle étape
             etape.get(ligne)[position] = etape.get(minimum.ligne)[minimum.colonne];
 
 //            sc.nextLine();
 //
 
-
+            // On va supprimer dans la liste des connexions dispo celles dont le noeud n'a pas de retour posssible dessus
             int compteur = 0;
             for (int i = 0; i < liste_connexion_dispo.size(); i++) {
                 if (liste_connexion_dispo.get(i-compteur).colonne == position){
                     liste_connexion_dispo.remove(i-compteur);
+                    compteur += 1;
                 }
             }
         }
