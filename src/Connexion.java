@@ -1,15 +1,21 @@
+// Format de donnée qui stocke une partie de chemin avec sa distance
 public class Connexion {
-    int cout;
-    Noeud noeud;
-    boolean etat; //True->normal, False->Pas de retour sur ce tuple
+    // Cout, somme des Noeuds (cases) parcouru
+    private final int cout;
+    // Noeud de ratachement
+    private final Noeud noeud;
 
+    // Initialisation
     public Connexion(int cout, Noeud noeud){
         this.cout = cout;
         this.noeud = noeud;
-        this.etat = true;
-
     }
-    public Connexion(boolean etat){
-        this.etat = etat;
+
+    public int getCout() {
+        return cout;
+    }
+
+    public Noeud getNoeud() {
+        return noeud;
     }
 }
