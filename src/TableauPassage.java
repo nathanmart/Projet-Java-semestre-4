@@ -11,6 +11,18 @@ public class TableauPassage {
         };
     }
 
+    public TableauPassage(int nb_ligne, int nb_colonne){
+        this.tableau = new int[nb_ligne + 2][nb_colonne + 2];
+        // Ajout des -1 autour
+        for (int i = 0; i < nb_ligne + 2; i++) {
+            for (int j = 0; j < nb_colonne + 2; j++) {
+                if (i == 0 || i == nb_ligne + 1 || j == 0 || j == nb_colonne + 1){
+                    this.tableau[i][j] = -1;
+                }
+            }
+        }
+    }
+
     public void passer(int i, int j){
         this.tableau[i][j] = 1;
     }
