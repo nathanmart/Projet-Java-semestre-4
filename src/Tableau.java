@@ -126,7 +126,7 @@ public class Tableau {
         String chemin_min = "";
 
         // Pour stocker temporairement un dénivelé
-        int denivele = 0;
+        int denivele = Integer.MAX_VALUE;
         int dernier_denivele;
         String dernier_chemin = "";
 
@@ -136,6 +136,14 @@ public class Tableau {
         while (true){
             // Indique un retour impossible sur la case actuelle
             this.deja_passe.passer(i, j);
+
+            try {
+                denivele = liste_ancienne_position.getDernierElement().denivele;
+            }
+            catch (Exception e){
+                denivele = 0;
+            }
+//            System.out.println(denivele + " " + denivele_min + " i:" + i + " j:" + j);
 
             //Test si arrivé
             if (i == i_fin && j == j_fin){
@@ -148,7 +156,13 @@ public class Tableau {
                 nouveau_choix = -1;
                 coupPrecedent = liste_ancienne_position.getDernierElement();
                 this.deja_passe.revenir(coupPrecedent.posX, coupPrecedent.posY);
-            } else {
+            }
+            else if(denivele >= denivele_min){
+                nouveau_choix = -1;
+                coupPrecedent = liste_ancienne_position.getDernierElement();
+                this.deja_passe.revenir(coupPrecedent.posX, coupPrecedent.posY);
+            }
+            else {
                 nouveau_choix = this.choix_suivant(i, j, choix_precedent);
             }
 
@@ -192,6 +206,8 @@ public class Tableau {
                 }
 
                 choix_precedent = 0;
+
+
             }
             else if (i == i_debut && j == j_debut){
                 break;
@@ -205,6 +221,13 @@ public class Tableau {
                 j = coupPrecedent.posY;
                 choix_precedent = coupPrecedent.choixPrecedent;
             }
+
+//            System.out.print(denivele + " " + denivele_min + " i:" + i + " j:" + j);
+//            if (denivele >= denivele_min){
+//                System.out.print(" Le dénilevé est inférieur");
+//
+//            }
+//            System.out.println("");
 
         }
         System.out.println(chemin_min + denivele_min);
