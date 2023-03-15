@@ -1,5 +1,5 @@
-public class Tableau {
-    private int[][] tableau;
+public abstract class Tableau {
+    protected int[][] tableau;
 
     // Initialisation
     public Tableau(int nb_ligne, int nb_colonne){

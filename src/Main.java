@@ -6,7 +6,5 @@ public class Main {
 //        TableauDonnee test = new TableauDonnee(3, 3, "0 1 2 3 0 1 2 3 2");
         test.afficher_tableau();
         test.Resolution(1, 1, 8, 8);
-
     }
-
 }

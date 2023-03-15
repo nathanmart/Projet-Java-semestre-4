@@ -1,11 +1,12 @@
 import java.util.Calendar;
 
-public class TableauDonnee {
-    private int[][] tableau;
+public class TableauDonnee extends Tableau{
+//    private int[][] tableau;
     public TableauPassage deja_passe;
 
     // Initialisation test
     public TableauDonnee(){
+        super(3, 3);
         // TableauDonnee de test
         this.tableau = new int[][]{
                 {-1, -1, -1, -1, -1},
@@ -20,35 +21,24 @@ public class TableauDonnee {
 
     // Initialisation pour n'importe quel tableau
     public TableauDonnee(int nb_ligne, int nb_colonne, String valeurs){
+        super(nb_ligne, nb_colonne);
         // Conversion de la chaine de charactere en tableau
         String[] liste = valeurs.split(" ");
-        // Initialisation du tableau en fonction de la taille demandé
-        this.tableau = new int[nb_ligne + 2][nb_colonne + 2];
-        // Ajout des -1 autour
-        for (int i = 0; i < nb_ligne + 2; i++) {
-            for (int j = 0; j < nb_colonne + 2; j++) {
-                if (i == 0 || i == nb_ligne + 1 || j == 0 || j == nb_colonne + 1){
-                    this.tableau[i][j] = -1;
-                } else {
-                    tableau[i][j] = Integer.parseInt(liste[(i-1)*nb_colonne + (j-1)]);
-                }
+
+        checkEntree(nb_ligne, nb_colonne, liste);
+
+        // Ajout des valeurs
+        for (int i = 1; i < nb_ligne + 1; i++) {
+            for (int j = 1; j < nb_colonne + 1; j++) {
+                this.tableau[i][j] = Integer.parseInt(liste[(i-1)*nb_colonne + (j-1)]);
             }
         }
         // Création du tableau contenant les indicateurs de passage
         this.deja_passe = new TableauPassage(nb_ligne, nb_colonne);
     }
 
-    // Affiche les valeurs du tableau
-    public void afficher_tableau(){
-        for (int i = 0; i < tableau.length; i++) {
-            for (int j = 0; j < tableau[i].length; j++) {
-                System.out.print(tableau[i][j] + " ");
-            }
-            System.out.println("");
-        }
-    }
 
-    // Détermine la prochaine case vers laquelle se dépacer
+    // Détermine la prochaine case vers laquelle se déplacer
     public int choix_suivant(int i, int j, int choix_precedent){
 
         if (choix_precedent == 0){
@@ -87,11 +77,6 @@ public class TableauDonnee {
         return -1;
     }
 
-    // Renvoie la valeur du tableau pour un index donné
-    public int getTableau(int i, int j) {
-        return tableau[i][j];
-    }
-
     // Vérifie qu'un trajet du point a vers le point b est possible
     // a --> b
     private boolean trajerPossible(int ia, int ja, int ib, int jb){
@@ -110,7 +95,7 @@ public class TableauDonnee {
     }
 
 
-    // Algortihme de résolution du chemin le plus court
+    // Algorithme de résolution du chemin le plus court
     public void Resolution(int i_debut, int j_debut, int i_fin, int j_fin) {
         // Permet de se replacer sur le mouvement précédent
         Euler coupPrecedent;
@@ -238,5 +223,27 @@ public class TableauDonnee {
         System.out.println(chemin_min + denivele_min);
         heure_fin = Calendar.getInstance();
         System.out.println((heure_fin.getTimeInMillis() - heure_debut.getTimeInMillis()));
+    }
+
+
+    // Cette fonction permet de vérifier les paramètres avant de créer un tableau
+    // On vérifie les points suivants:
+    // °Le nombre de nombres correspond aux dimensions
+    // °Il n'y a que des nombres
+    private void checkEntree(int nb_colonnes, int nb_lignes, String[] entree) throws IllegalArgumentException {
+        int compteur = 0;
+
+        for (String nombre: entree ) {
+            try {
+                Integer.parseInt(nombre);
+            }
+            catch (NumberFormatException e){
+                throw new IllegalArgumentException("Seul les nombres sont autorisés");
+            }
+            compteur++;
+        }
+        if (compteur < nb_colonnes * nb_colonnes){
+            throw new IllegalArgumentException("Pas assez de nombre");
+        }
     }
 }
