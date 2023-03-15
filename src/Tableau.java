@@ -5,7 +5,7 @@ public class Tableau {
     private int nb_case_occupe;
     public TableauPassage deja_passe;
 
-    // Initialisation
+    // Initialisation test
     public Tableau(){
         int i, j;
 
@@ -22,6 +22,7 @@ public class Tableau {
         this.deja_passe = new TableauPassage();
     }
 
+    // Initialisation pour n'importe quel tableau
     public Tableau(int nb_ligne, int nb_colonne, String valeurs){
         String[] liste = valeurs.split(" ");
         this.tableau = new int[nb_ligne + 2][nb_colonne + 2];
@@ -35,7 +36,7 @@ public class Tableau {
                 }
             }
         }
-        this.deja_passe = new TableauPassage();
+        this.deja_passe = new TableauPassage(nb_ligne, nb_colonne);
     }
 
 
@@ -93,7 +94,7 @@ public class Tableau {
     // a --> b
     private boolean trajerPossible(int ia, int ja, int ib, int jb){
         int ecart = this.tableau[ib][jb] - this.tableau[ia][ja];
-
+        if (this.tableau[ib][jb] == -1) return false;
         if(ecart <= 3 && ecart >= -3) return true;
         else return false;
     }
@@ -107,16 +108,10 @@ public class Tableau {
 
 
     public void Resolution(int i_debut, int j_debut, int i_fin, int j_fin) {
-        // Permet de de replacer sur le mouvement précédent
+        // Permet de se replacer sur le mouvement précédent
         Euler coupPrecedent;
 
-        // Cordonnée début et fin
-//        int i_debut = 1;
-//        int j_debut = 1;
-//        int i_fin = 3;
-//        int j_fin = 1;
-
-        // Coordonnée en cour sur le tableau
+        // Coordonnée en cours sur le tableau
         int i = i_debut;
         int j = j_debut;
 
@@ -197,7 +192,8 @@ public class Tableau {
                 }
 
                 choix_precedent = 0;
-            } else if (i == i_debut && j == j_debut){
+            }
+            else if (i == i_debut && j == j_debut){
                 break;
             }
 
@@ -211,7 +207,8 @@ public class Tableau {
             }
 
         }
-
         System.out.println(chemin_min + denivele_min);
+        heure_fin = Calendar.getInstance();
+        System.out.println((heure_fin.getTimeInMillis() - heure_debut.getTimeInMillis()));
     }
 }
