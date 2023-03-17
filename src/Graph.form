@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Graph">
+  <grid id="27dc6" binding="principale" layout-manager="GridLayoutManager" row-count="2" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="729" height="512"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="d2f53" binding="place_tableau" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="6" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none">
+          <title-color color="-2104859"/>
+        </border>
+        <children/>
+      </grid>
+      <grid id="f2f1e" binding="placeBtnGauche" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="78ea6" class="javax.swing.JButton" binding="validerButton">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <text value="Valider"/>
+            </properties>
+          </component>
+          <component id="2e8b5" class="javax.swing.JButton" binding="calculerButton" default-binding="true">
+            <constraints border-constraint="South"/>
+            <properties>
+              <enabled value="true"/>
+              <hideActionText value="false"/>
+              <text value="Calculer"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="5be13" binding="placeBtnDroite" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="0" column="4" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="865ab" class="javax.swing.JButton" binding="chargerButton">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <text value="Charger"/>
+            </properties>
+          </component>
+          <component id="365ba" class="javax.swing.JLabel" binding="texte">
+            <constraints border-constraint="South"/>
+            <properties>
+              <enabled value="true"/>
+              <text value=""/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
