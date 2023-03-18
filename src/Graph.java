@@ -71,10 +71,11 @@ public class Graph extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (graphTableauButton1.getCompteur() != 2){
-                    texte.setText("Veuillez selectionner 2 points");
+//                    texte.setText("Veuillez selectionner 2 points");
+                    JOptionPane.showMessageDialog(principale, "Veuillez selectionner 2 points");
                 }
                 else {
-                    texte.setText("Calcul en cour");
+                    System.out.println("OK");
                 }
             }
         });
