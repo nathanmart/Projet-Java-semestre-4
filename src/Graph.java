@@ -17,6 +17,8 @@ public class Graph extends JFrame{
     private JButton button2;
     private GraphTableauIN graphTableauIN1;
     private GraphTableauButton graphTableauButton1;
+    private GraphTableauResultat graphTableauResultat1;
+    private String valeurs;
 
     TableauDonnee tableau;
 
@@ -45,7 +47,7 @@ public class Graph extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String texte = graphTableauIN1.getString();
-                System.out.println(texte);
+                valeurs = texte;
 
                 try {
                     tableau = new TableauDonnee(3, 3, texte);
@@ -75,7 +77,17 @@ public class Graph extends JFrame{
                     JOptionPane.showMessageDialog(principale, "Veuillez selectionner 2 points");
                 }
                 else {
-                    System.out.println("OK");
+                    int idebut = graphTableauButton1.index1/3;
+                    int jdebut = graphTableauButton1.index1%3;
+                    int ifin = graphTableauButton1.index2/3;
+                    int jfin = graphTableauButton1.index2%3;
+
+                    String Resultat = tableau.Resolution(idebut +1, jdebut +1, ifin +1, jfin+1);
+                    place_tableau.removeAll();
+                    graphTableauResultat1 = new GraphTableauResultat(3, 3, valeurs);
+                    place_tableau.add(graphTableauResultat1);
+
+
                 }
             }
         });
