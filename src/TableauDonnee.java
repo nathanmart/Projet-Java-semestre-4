@@ -248,7 +248,7 @@ public class TableauDonnee extends Tableau{
             }
             compteur++;
         }
-        if (compteur < nb_colonnes * nb_colonnes){
+        if (compteur < nb_lignes * nb_colonnes){
             throw new IllegalArgumentException("Pas assez de nombre");
         }
     }

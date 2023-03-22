@@ -35,10 +35,10 @@ public class GraphTableauResultat extends JPanel{
                 bouton.setFont(font_text);
                 bouton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
                 bouton.setHorizontalAlignment(JTextField.CENTER);
-                bouton.setName(String.valueOf(i*3 + j));
+                bouton.setName(String.valueOf(i*nbColonne + j));
                 bouton.setBackground(Color.WHITE);
                 bouton.setOpaque(true);
-                bouton.setText(donnee[i*3 + j]);
+                bouton.setText(donnee[i*nbColonne + j]);
 
                 //Ajout au tableau de sauvegarde
                 liste_case[i][j] = bouton;
@@ -48,9 +48,15 @@ public class GraphTableauResultat extends JPanel{
             }
         }
         //Coloration
-        for (String casee: liste_case_chemin) {
-            String[] coord = casee.split(",");
-            liste_case[Integer.parseInt(coord[0]) - 1][Integer.parseInt(coord[1]) - 1].setBackground(Color.RED);
+        try {
+            for (String casee : liste_case_chemin) {
+                String[] coord = casee.split(",");
+                System.out.println("X:" + coord[0] + " Y:" + coord[1]);
+                liste_case[Integer.parseInt(coord[0]) - 1][Integer.parseInt(coord[1]) - 1].setBackground(Color.RED);
+            }
+        }
+        catch (Exception f){
+            JOptionPane.showMessageDialog(null, "Chemin impossible");
         }
 
     }

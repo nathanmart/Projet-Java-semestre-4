@@ -40,9 +40,9 @@ public class GraphTableauButton extends JPanel{
                 bouton.setFont(font_text);
                 bouton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
                 bouton.setHorizontalAlignment(JTextField.CENTER);
-                bouton.setName(String.valueOf(i*3 + j));
+                bouton.setName(String.valueOf(i*nbColonne + j));
                 bouton.setBackground(Color.WHITE);
-                bouton.setText(donnee[i*3 + j]);
+                bouton.setText(donnee[i*nbColonne + j]);
 
                 //Action
                 bouton.addActionListener(new ActionListener() {
@@ -54,9 +54,9 @@ public class GraphTableauButton extends JPanel{
                         // Si reclique sur départ
                         if (index == index1){
                             compteur = 0;
-                            liste_bouton[index1/3][index1%3].setBackground(Color.WHITE);
+                            liste_bouton[index1/nbColonne][index1%nbColonne].setBackground(Color.WHITE);
                             if(index2 != -1){
-                                liste_bouton[index2/3][index2%3].setBackground(Color.WHITE);
+                                liste_bouton[index2/nbColonne][index2%nbColonne].setBackground(Color.WHITE);
                             }
                             index1 = -1;
                             index2 = -1;
@@ -65,20 +65,20 @@ public class GraphTableauButton extends JPanel{
                         else if (index == index2){
                             System.out.println("LA ON Y EST");
                             compteur = 1;
-                            liste_bouton[index/3][index%3].setBackground(Color.WHITE);
+                            liste_bouton[index/nbColonne][index%nbColonne].setBackground(Color.WHITE);
                             index2 = -1;
                         }
                         // Si le compteur est à 0, choisis départ
                         else if (compteur == 0){
                             compteur ++;
                             index1 = index;
-                            liste_bouton[index/3][index%3].setBackground(Color.GREEN);
+                            liste_bouton[index/nbColonne][index%nbColonne].setBackground(Color.GREEN);
                         }
                         // Si le compteur est à 1, choisis l'arrivé
                         else if (compteur == 1){
                             compteur ++;
                             index2 = index;
-                            liste_bouton[index/3][index%3].setBackground(Color.RED);
+                            liste_bouton[index/nbColonne][index%nbColonne].setBackground(Color.RED);
                         }
                     }
                 });
