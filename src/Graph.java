@@ -18,6 +18,7 @@ public class Graph extends JFrame{
     private GraphTableauIN graphTableauIN1;
     private GraphTableauButton graphTableauButton1;
     private GraphTableauResultat graphTableauResultat1;
+    private String valeurs;
 
     TableauDonnee tableau;
 
@@ -46,7 +47,7 @@ public class Graph extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String texte = graphTableauIN1.getString();
-                System.out.println(texte);
+                valeurs = texte;
 
                 try {
                     tableau = new TableauDonnee(3, 3, texte);
