@@ -17,6 +17,7 @@ public class Graph extends JFrame{
     private JButton button2;
     private GraphTableauIN graphTableauIN1;
     private GraphTableauButton graphTableauButton1;
+    private GraphTableauResultat graphTableauResultat1;
 
     TableauDonnee tableau;
 
@@ -75,7 +76,20 @@ public class Graph extends JFrame{
                     JOptionPane.showMessageDialog(principale, "Veuillez selectionner 2 points");
                 }
                 else {
+                    int id = graphTableauButton1.index1 / 3;
+                    int jd = graphTableauButton1.index1 % 3;
+                    int ia = graphTableauButton1.index2 / 3;
+                    int ja = graphTableauButton1.index2 % 3;
+                    System.out.println(id + " " +  jd + " " + ia + " " + ja);
+
                     System.out.println("OK");
+                    String chemin = tableau.Resolution(id + 1, jd + 1, ia + 1, ja + 1);
+                    System.out.println(chemin);
+                    graphTableauResultat1 = new GraphTableauResultat(3, 3, graphTableauIN1.getString(), chemin);
+                    place_tableau.removeAll();
+                    place_tableau.add(graphTableauResultat1);
+                    revalidate();
+                    System.out.println("LA");
                 }
             }
         });

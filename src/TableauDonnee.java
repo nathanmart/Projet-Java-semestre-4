@@ -96,7 +96,7 @@ public class TableauDonnee extends Tableau{
 
 
     // Algorithme de résolution du chemin le plus court
-    public void Resolution(int i_debut, int j_debut, int i_fin, int j_fin) {
+    public String Resolution(int i_debut, int j_debut, int i_fin, int j_fin) {
         // Permet de se replacer sur le mouvement précédent
         Euler coupPrecedent;
 
@@ -139,7 +139,7 @@ public class TableauDonnee extends Tableau{
                 // Cas où ce chemin jusqu'à la case finale est plus court qu'un chemin précédemment trouvé
                 if (dernier_denivele < denivele_min){
                     denivele_min = dernier_denivele;
-                    chemin_min = liste_ancienne_position.getDernierElement().chemin + "("+i+","+j+") ";
+                    chemin_min = liste_ancienne_position.getDernierElement().chemin + +i+","+j+" ";
                 }
 
                 // Préparation pour la suite du programme afin de revenir à la case précédente
@@ -151,7 +151,12 @@ public class TableauDonnee extends Tableau{
             // On revient donc en arrière
             else if(dernier_denivele >= denivele_min){
                 nouveau_choix = -1;
-                coupPrecedent = liste_ancienne_position.getDernierElement();
+                try {
+                    coupPrecedent = liste_ancienne_position.getDernierElement();
+                }
+                catch (Exception e){
+                    break;
+                }
                 this.deja_passe.revenir(coupPrecedent.posX, coupPrecedent.posY);
             }
             // Sinon on continu à avancer
@@ -172,7 +177,7 @@ public class TableauDonnee extends Tableau{
                 // Haut
                 if (nouveau_choix == 1) {
                     denivele = this.getDeniveleDeuxPoint(i, j, i-1, j) + dernier_denivele;
-                    dernier_chemin += "("+i+","+j+") ";
+                    dernier_chemin += i+","+j+" ";
                     liste_ancienne_position.Emplier(new Euler(i, j, nouveau_choix, denivele, dernier_chemin));
                     i -=1;
                 }
@@ -180,7 +185,7 @@ public class TableauDonnee extends Tableau{
                 // Gauche
                 if (nouveau_choix == 2) {
                     denivele = this.getDeniveleDeuxPoint(i, j, i, j-1) + dernier_denivele;
-                    dernier_chemin += "("+i+","+j+") ";
+                    dernier_chemin += i+","+j+" ";
                     liste_ancienne_position.Emplier(new Euler(i, j, nouveau_choix, denivele, dernier_chemin));
                     j -= 1;
                 }
@@ -188,7 +193,7 @@ public class TableauDonnee extends Tableau{
                 // Droite
                 if (nouveau_choix == 3) {
                     denivele = this.getDeniveleDeuxPoint(i, j, i, j+1) + dernier_denivele;
-                    dernier_chemin += "("+i+","+j+") ";
+                    dernier_chemin += i+","+j+" ";
                     liste_ancienne_position.Emplier(new Euler(i, j, nouveau_choix, denivele, dernier_chemin));
                     j +=1;
                 }
@@ -196,7 +201,7 @@ public class TableauDonnee extends Tableau{
                 // Bas
                 if (nouveau_choix == 4) {
                     denivele = this.getDeniveleDeuxPoint(i, j, i+1, j) + dernier_denivele;
-                    dernier_chemin += "("+i+","+j+") ";
+                    dernier_chemin += i+","+j+" ";
                     liste_ancienne_position.Emplier(new Euler(i, j, nouveau_choix, denivele, dernier_chemin));
                     i += 1;
                 }
@@ -223,6 +228,7 @@ public class TableauDonnee extends Tableau{
         System.out.println(chemin_min + denivele_min);
         heure_fin = Calendar.getInstance();
         System.out.println((heure_fin.getTimeInMillis() - heure_debut.getTimeInMillis()));
+        return chemin_min;
     }
 
 
