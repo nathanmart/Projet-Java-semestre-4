@@ -1,23 +1,8 @@
 import java.util.Calendar;
 
 public class TableauDonnee extends Tableau{
-//    private int[][] tableau;
     public TableauPassage deja_passe;
 
-    // Initialisation test
-    public TableauDonnee(){
-        super(3, 3);
-        // TableauDonnee de test
-        this.tableau = new int[][]{
-                {-1, -1, -1, -1, -1},
-                {-1, 1, 2, 3, -1},
-                {-1, 6, 4, 4, -1},
-                {-1, 7, 8, 5, -1},
-                {-1, -1, -1, -1, -1},
-        };        // TableauDonnee de test
-
-        this.deja_passe = new TableauPassage();
-    }
 
     // Initialisation pour n'importe quel tableau
     public TableauDonnee(int nb_ligne, int nb_colonne, String valeurs){
@@ -25,6 +10,7 @@ public class TableauDonnee extends Tableau{
         // Conversion de la chaine de charactere en tableau
         String[] liste = valeurs.split(" ");
 
+        // Vérification conformité valeurs
         checkEntree(nb_ligne, nb_colonne, liste);
 
         // Ajout des valeurs
@@ -77,6 +63,7 @@ public class TableauDonnee extends Tableau{
         return -1;
     }
 
+
     // Vérifie qu'un trajet du point a vers le point b est possible
     // a --> b
     private boolean trajerPossible(int ia, int ja, int ib, int jb){
@@ -100,6 +87,9 @@ public class TableauDonnee extends Tableau{
         // Permet de se replacer sur le mouvement précédent
         Euler coupPrecedent;
 
+        // Remet les passages à 0
+        this.deja_passe.reset();
+
         // Coordonnée en cours sur le tableau
         int i = i_debut;
         int j = j_debut;
@@ -113,10 +103,12 @@ public class TableauDonnee extends Tableau{
         // Stocke chemin et dénivelé chemin mini
         int denivele_min = Integer.MAX_VALUE;
         String chemin_min = "";
+        int nb_cases_mini = Integer.MAX_VALUE;
 
-        // Pour stocker temporairement un dénivelé
+        // Pour stocker temporairement les info du chemin en cours
         int denivele;
         int dernier_denivele;
+        int nb_cases = 0;
         String dernier_chemin = "";
 
         // Pour naviguer
@@ -130,6 +122,7 @@ public class TableauDonnee extends Tableau{
             // Besoin d'un try/catch pour le premier cycle
             try {
                 dernier_denivele = liste_ancienne_position.getDernierElement().denivele;
+
             } catch (Exception e){
                 dernier_denivele = 0;
             }
@@ -137,8 +130,9 @@ public class TableauDonnee extends Tableau{
             // Cas où on est arrivé sur la case finale
             if (i == i_fin && j == j_fin){
                 // Cas où ce chemin jusqu'à la case finale est plus court qu'un chemin précédemment trouvé
-                if (dernier_denivele < denivele_min){
+                if (dernier_denivele < denivele_min || (dernier_denivele == denivele_min && nb_cases < nb_cases_mini)){
                     denivele_min = dernier_denivele;
+                    nb_cases_mini = nb_cases;
                     chemin_min = liste_ancienne_position.getDernierElement().chemin + +i+","+j+" ";
                 }
 
@@ -149,7 +143,7 @@ public class TableauDonnee extends Tableau{
             }
             // Si le dénivelé en cours est plus important qu'un dénivelé de chemin final précédement trouve, rien ne sert de continuer
             // On revient donc en arrière
-            else if(dernier_denivele >= denivele_min){
+            else if(dernier_denivele > denivele_min){
                 nouveau_choix = -1;
                 try {
                     coupPrecedent = liste_ancienne_position.getDernierElement();
@@ -207,6 +201,7 @@ public class TableauDonnee extends Tableau{
                 }
 
                 choix_precedent = 0;
+                nb_cases += 1;
             }
             // Si le nouveau choix est -1 et que l'on est sur la première case, cela veut dire qu'il n'y a plus de possibilité de déplacement
             // On termine la boucle
@@ -221,6 +216,7 @@ public class TableauDonnee extends Tableau{
                 i = coupPrecedent.posX;
                 j = coupPrecedent.posY;
                 choix_precedent = coupPrecedent.choixPrecedent;
+                nb_cases -= 1;
             }
         }
 

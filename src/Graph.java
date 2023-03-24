@@ -128,6 +128,7 @@ public class Graph extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 afficher_tableau_boutton();
+
             }
         });
 
@@ -238,16 +239,12 @@ public class Graph extends JFrame{
         int jd = graphTableauButton1.index1 % nb_colonne;
         int ia = graphTableauButton1.index2 / nb_colonne;
         int ja = graphTableauButton1.index2 % nb_colonne;
-        System.out.println(id + " " +  jd + " " + ia + " " + ja);
 
-        System.out.println("OK");
         String chemin = tableau.Resolution(id + 1, jd + 1, ia + 1, ja + 1);
-        System.out.println(chemin);
         graphTableauResultat1 = new GraphTableauResultat(nb_ligne, nb_colonne, valeurs, chemin);
         place_tableau.removeAll();
         place_tableau.add(graphTableauResultat1);
         revalidate();
-        System.out.println("LA");
     }
 
 
