@@ -87,6 +87,8 @@ public class Graph extends JFrame{
                 }
             }
         });
+
+        // Recommencer sur une nouvelle carte
         nouveauButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -94,6 +96,7 @@ public class Graph extends JFrame{
             }
         });
 
+        // Valider la création d'un nouveau tableau avec les nouvelles dimensions
         validerDimensionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -113,8 +116,6 @@ public class Graph extends JFrame{
                         nb_colonne = colonne;
                         affichage_tableau_in();
                     }
-
-
                 }
                 catch (Exception f){
                     JOptionPane.showMessageDialog(principale, "Veuillez entrer des nombres seulement");
@@ -122,13 +123,16 @@ public class Graph extends JFrame{
             }
         });
 
+        // Recalculer un nouveau trajet sur le même tableau
         nouveauTrajetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 afficher_tableau_boutton();
+
             }
         });
 
+        // Charger un tableau à partir d'un fichier
         chargerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -141,10 +145,17 @@ public class Graph extends JFrame{
                     File selectedFile = fileChooser.getSelectedFile();
                     try {
                         BufferedReader reader = new BufferedReader(new FileReader(selectedFile));
-                        String line;
-                        nb_ligne = Integer.parseInt(reader.readLine());
-                        nb_colonne = Integer.parseInt(line = reader.readLine());
                         valeurs = reader.readLine();
+                        try {
+                            nb_ligne = Integer.parseInt(reader.readLine());
+                            nb_colonne = Integer.parseInt(reader.readLine());
+
+                        }
+                        catch (Exception g){
+                            nb_ligne = 8;
+                            nb_colonne = 8;
+                        }
+
                         reader.close();
 
                         try {
@@ -164,6 +175,7 @@ public class Graph extends JFrame{
             }
         });
 
+        // Enregister tableau dans un fichier
         enregisterCarteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -175,9 +187,9 @@ public class Graph extends JFrame{
                     try {
                         // Écrire du contenu dans le nouveau fichier
                         BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile + ".prj"));
+                        writer.write(valeurs + System.lineSeparator());
                         writer.write(nb_ligne + System.lineSeparator());
                         writer.write(nb_colonne + System.lineSeparator());
-                        writer.write(valeurs);
                         writer.close();
                     } catch (Exception f) {
                         f.printStackTrace();
@@ -228,16 +240,12 @@ public class Graph extends JFrame{
         int jd = graphTableauButton1.index1 % nb_colonne;
         int ia = graphTableauButton1.index2 / nb_colonne;
         int ja = graphTableauButton1.index2 % nb_colonne;
-        System.out.println(id + " " +  jd + " " + ia + " " + ja);
 
-        System.out.println("OK");
         String chemin = tableau.Resolution(id + 1, jd + 1, ia + 1, ja + 1);
-        System.out.println(chemin);
         graphTableauResultat1 = new GraphTableauResultat(nb_ligne, nb_colonne, valeurs, chemin);
         place_tableau.removeAll();
         place_tableau.add(graphTableauResultat1);
         revalidate();
-        System.out.println("LA");
     }
 
 
