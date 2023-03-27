@@ -208,6 +208,7 @@ public class Graph extends JFrame{
         chargerButton.setVisible(false);
         placeChoixTaille.setVisible(false);
         nouveauTrajetButton.setVisible(false);
+        nouveauButton.setVisible(true);
 
         calculerButton.setVisible(true);
         enregisterCarteButton.setVisible(true);
