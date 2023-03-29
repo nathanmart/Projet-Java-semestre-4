@@ -40,6 +40,15 @@ public class GraphTableauIN extends JPanel{
 
     }
 
+    public void setValue(String valeur){
+        String[] valeurs = valeur.split(" ");
+        for (int i = 0 ; i < nbligne; i++) {
+            for (int j = 0; j < nbcolonnes; j++) {
+                liste_texte[i][j].setText(valeurs[i*nbligne + j]);
+            }
+        }
+    }
+
     public String getString(){
         String texte = "";
         for (int i = 0; i < this.nbligne; i++) {
@@ -47,7 +56,6 @@ public class GraphTableauIN extends JPanel{
                 texte += liste_texte[i][j].getText() + " ";
             }
         }
-
         return texte;
     }
 }

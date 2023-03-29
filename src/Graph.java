@@ -1,7 +1,11 @@
+//BOTHUA Pierre
+//MARTORANA Nathan
+//Semestre 2
+
+
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.basic.BasicButtonUI;
-import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
@@ -24,6 +28,7 @@ public class Graph extends JFrame{
     private JButton nouveauButton;
     private JButton nouveauTrajetButton;
     private JButton enregisterCarteButton;
+    private JButton modifierCarteButton;
     private JButton button2;
     private GraphTableauIN graphTableauIN1;
     private GraphTableauButton graphTableauButton1;
@@ -128,7 +133,6 @@ public class Graph extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 afficher_tableau_boutton();
-
             }
         });
 
@@ -137,7 +141,7 @@ public class Graph extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichiers projet (*.prj)", "prj");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichiers texte (*.txt)", "txt");
                 fileChooser.setFileFilter(filter);
                 int result = fileChooser.showOpenDialog(null);
 
@@ -145,10 +149,15 @@ public class Graph extends JFrame{
                     File selectedFile = fileChooser.getSelectedFile();
                     try {
                         BufferedReader reader = new BufferedReader(new FileReader(selectedFile));
-                        valeurs = reader.readLine();
+//                        valeurs = reader.readLine();
+                        valeurs = "";
+
                         try {
                             nb_ligne = Integer.parseInt(reader.readLine());
                             nb_colonne = Integer.parseInt(reader.readLine());
+                            for (int i = 0; i < nb_ligne * nb_colonne; i++) {
+                                valeurs += reader.readLine() + " ";
+                            }
 
                         }
                         catch (Exception g){
@@ -197,6 +206,16 @@ public class Graph extends JFrame{
                 }
             }
         });
+
+        // Permet de modifier une carte déja validée
+        modifierCarteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                affichage_tableau_in();
+                System.out.println(valeurs);
+                graphTableauIN1.setValue(valeurs);
+            }
+        });
     }
 
     private void affichage_tableau_in(){
@@ -212,6 +231,7 @@ public class Graph extends JFrame{
         nouveauButton.setVisible(false);
         nouveauTrajetButton.setVisible(false);
         enregisterCarteButton.setVisible(false);
+        modifierCarteButton.setVisible(false);
         revalidate();
     }
 
@@ -221,6 +241,7 @@ public class Graph extends JFrame{
         placeChoixTaille.setVisible(false);
         nouveauTrajetButton.setVisible(false);
         nouveauButton.setVisible(true);
+        modifierCarteButton.setVisible(true);
 
         calculerButton.setVisible(true);
         enregisterCarteButton.setVisible(true);
@@ -253,4 +274,7 @@ public class Graph extends JFrame{
         Graph myFrame = new Graph();
     }
 
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+    }
 }
