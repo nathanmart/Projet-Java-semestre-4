@@ -1,3 +1,7 @@
+//BOTHUA Pierre
+//MARTORANA Nathan
+//Semestre 2
+
 import java.util.Calendar;
 
 public class TableauDonnee extends Tableau{

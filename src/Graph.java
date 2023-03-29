@@ -2,8 +2,6 @@
 //MARTORANA Nathan
 //Semestre 2
 
-
-
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.*;
@@ -69,7 +67,6 @@ public class Graph extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 String texte = graphTableauIN1.getString();
                 valeurs = texte;
-                System.out.println(texte);
                 try {
                     tableau = new TableauDonnee(nb_ligne, nb_colonne, texte);
                     afficher_tableau_boutton();
@@ -274,7 +271,4 @@ public class Graph extends JFrame{
         Graph myFrame = new Graph();
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
 }

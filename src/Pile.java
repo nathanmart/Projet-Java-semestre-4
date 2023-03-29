@@ -1,3 +1,7 @@
+//BOTHUA Pierre
+//MARTORANA Nathan
+//Semestre 2
+
 import java.util.Vector;
 
 // <T> signifie que l'on peut stocker n'importe quel type de donnée

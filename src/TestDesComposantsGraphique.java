@@ -1,3 +1,6 @@
+//BOTHUA Pierre
+//MARTORANA Nathan
+//Semestre 2
 import javax.swing.*;
 
 public class TestDesComposantsGraphique extends JFrame {

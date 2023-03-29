@@ -1,3 +1,7 @@
+//BOTHUA Pierre
+//MARTORANA Nathan
+//Semestre 2
+
 public class TableauPassage extends Tableau {
     int nbligne;
     int nbcolonne;

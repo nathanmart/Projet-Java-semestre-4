@@ -1,3 +1,7 @@
+//BOTHUA Pierre
+//MARTORANA Nathan
+//Semestre 2
+
 import javax.swing.*;
 import java.awt.*;
 

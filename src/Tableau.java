@@ -1,3 +1,6 @@
+//BOTHUA Pierre
+//MARTORANA Nathan
+//Semestre 2
 public abstract class Tableau {
     protected int[][] tableau;
 
